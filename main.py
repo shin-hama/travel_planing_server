@@ -2,7 +2,7 @@ from flask import Request
 import functions_framework
 
 import src.directions as directions
-import src.places as places
+from src.places import Places
 
 
 @functions_framework.http
@@ -52,7 +52,7 @@ def hello_http(request: Request):
         if request.path == "/directions":
             return (directions.main(request_json), headers)
         elif request.path == "/places_photos":
-            return (places.get_photo(request_json), headers)
+            return (Places().get_photo(request_json), headers)
         else:
             print("test")
             raise Exception("not implemented")
