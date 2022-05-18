@@ -1,7 +1,8 @@
 from flask import Request
 import functions_framework
 
-import src.directions as test
+import src.directions as directions
+import src.places as places
 
 
 @functions_framework.http
@@ -48,9 +49,15 @@ def hello_http(request: Request):
         )
 
     try:
-        return (test.main(request_json), headers)
+        if request.path == "/directions":
+            return (directions.main(request_json), headers)
+        elif request.path == "/places_photos":
+            return (places.get_photo(request_json), headers)
+        else:
+            print("test")
+            raise Exception("not implemented")
     except Exception as e:
-        print(e.with_traceback())
+        print(e.with_traceback(None))
         return (
             {
                 "message": "An error has ocurred",
